@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contrôleur Bot DCPFR</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .listes{
+            justify-content: space-around;
+            display: flex;
+            gap: 15%;
+            margin-bottom: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 48%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+
+        .liste{
+            overflow: auto;
+            height: 75vh;
+            width: 30vw;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+        }
+        button.delete-btn {
+            width: 10%;
+            background-color: #ff5757;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Contrôleur Bot DCPFR</h1>
+        <div class="listes">
+        <div>
+        <label for="list1">Liste 1</label>
+        <div id="list1" class="liste"></div>
+        <button onclick="addInput('list1')">Ajouter une paire</button>
+        </div>
+        <div>
+        <label for="list2">Liste 2</label>
+        <div id="list2" class="liste"></div>
+        <button onclick="addInput('list2')">Ajouter une paire</button>
+        </div>
+        </div>
+
+        <button onclick="applyChanges()">Appliquer les modifications</button>
+    </div>
+
+    <script>
+        function addInput(containerId, data) {
+            var container = document.getElementById(containerId);
+
+            var inputContainer = document.createElement('div');
+            inputContainer.classList.add('input-container');
+
+            var keyInput = document.createElement('input');
+            keyInput.type = 'text';
+            keyInput.className="trigger"
+            keyInput.name="trigger"
+            keyInput.placeholder = 'Mot à remplacer';
+            keyInput.value = data?.trigger ?? ''
+            inputContainer.appendChild(keyInput);
+
+            var valueInput = document.createElement('input');
+            valueInput.type = 'text';
+            valueInput.className="replace"
+            valueInput.name="replace"
+            valueInput.placeholder = 'Remplacement';
+            valueInput.value = data?.replace ?? '';
+            inputContainer.appendChild(valueInput);
+
+            var deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'X';
+            deleteBtn.classList.add('delete-btn');
+        
+            deleteBtn.onclick = function() {
+                container.removeChild(inputContainer);
+            };
+            inputContainer.appendChild(deleteBtn);
+
+            container.appendChild(inputContainer);
+        }
+
+        function applyChanges() {
+            var listInputs1 = document.getElementById('list1').querySelectorAll('.input-container');
+            var listInputs2 = document.getElementById('list2').querySelectorAll('.input-container');
+
+            var list1 = Array.from(listInputs1).map(inputContainer => {
+                var keyInput = inputContainer.querySelector('.trigger');
+                var valueInput = inputContainer.querySelector('.replace');
+                return { trigger: keyInput.value, replace: valueInput.value };
+            });
+
+            var list2 = Array.from(listInputs2).map(inputContainer => {
+                var keyInput = inputContainer.querySelector('.trigger');
+                var valueInput = inputContainer.querySelector('.replace');
+                return { trigger: keyInput.value, replace: valueInput.value };
+            });
+
+            // Ajoutez la logique JavaScript pour traiter les modifications et les envoyer au bot Discord ici
+            console.log('Liste 1:', list1);
+            console.log('Liste 2:', list2);
+
+            // Ajoutez la logique d'envoi au bot Discord ici
+
+            Promise.all([
+                fetch("/list1", {method: "POST", body: JSON.stringify(list1), headers: {"Content-Type": "application/json"}}), 
+                fetch("/list2", {method: "POST", body: JSON.stringify(list2), headers: {"Content-Type": "application/json"}})
+            ]).then(_ => {
+                alert("Mis à jour !")
+            })
+        }
+
+        fetch("/list1").then(r => r.json()).then(l => {
+            l.forEach(v => {
+            addInput("list1", v)
+            })
+        })
+
+        fetch("/list2").then(r => r.json()).then(l => {
+            l.forEach(v => {
+            addInput("list2", v)
+            })
+        })
+    </script>
+</body>
+</html>
