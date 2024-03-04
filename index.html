@@ -148,20 +148,20 @@
             // Ajoutez la logique d'envoi au bot Discord ici
 
             Promise.all([
-                fetch("list1", {method: "POST", body: JSON.stringify(list1), headers: {"Content-Type": "application/json"}}), 
-                fetch("list2", {method: "POST", body: JSON.stringify(list2), headers: {"Content-Type": "application/json"}})
+                fetch(document.location + "/list1", {method: "POST", body: JSON.stringify(list1), headers: {"Content-Type": "application/json"}}), 
+                fetch(document.location + "/list2", {method: "POST", body: JSON.stringify(list2), headers: {"Content-Type": "application/json"}})
             ]).then(_ => {
                 alert("Mis à jour !")
             })
         }
 
-        fetch("list1").then(r => r.json()).then(l => {
+        fetch(document.location + "/list1").then(r => r.json()).then(l => {
             l.forEach(v => {
             addInput("list1", v)
             })
         })
 
-        fetch("list2").then(r => r.json()).then(l => {
+        fetch(document.location + "/list2").then(r => r.json()).then(l => {
             l.forEach(v => {
             addInput("list2", v)
             })
