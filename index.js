@@ -5,6 +5,7 @@ const app = express()
 const port = 3055
 const path = require('path');
 const bodyParser = require('body-parser');
+require('dotenv').config();
 
 const client = new Client({
 	intents: [
@@ -57,7 +58,7 @@ try{
 }
 
 
-client.login("MTIwOTY2Nzc1MDkxMDIzNDYyNg.GcJZe9.tCaZ0QAxn_GSKvi4sUEbnIRaIsdhrBnzUyYvrI");
+client.login(process.env.BOT_TOKEN);
 
 app.use(bodyParser.json());
 
