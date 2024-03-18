@@ -37,10 +37,12 @@ try{
         const v = list1.find(v => message.includes(" " + v.trigger + " "));
         m.reply(`Attention aux anglicismes ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🤓`)
         return;
-    }});
+    }
 }catch(err){
 	console.log(err)
 }
+});
+
 
 try{
     let data = fs.readFileSync('liste1.json');
