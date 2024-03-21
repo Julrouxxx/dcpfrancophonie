@@ -109,6 +109,7 @@ app.post("/message", (req, res)=>{
     const message = req.body.message;
     const channel = client.channels.cache.get(channelId);
     channel.send(message);
+    res.send("OK")
     }catch(e){
         console.log(e);
         res.sendStatus(500);
