@@ -27,7 +27,7 @@ client.once(Events.ClientReady, c => {
 client.on(Events.MessageCreate, m => {
     if(m.author.id === client.user.id) return;
     let message = " " + m.content.toUpperCase() + " ";
-
+try{
     if(list2.some(v => message.includes(" " + v.trigger + " "))){
         const v = list2.find(v => message.includes(" " + v.trigger + " "));
         m.reply(`Attention au nom ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🫠`)
@@ -37,7 +37,12 @@ client.on(Events.MessageCreate, m => {
         const v = list1.find(v => message.includes(" " + v.trigger + " "));
         m.reply(`Attention aux anglicismes ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🤓`)
         return;
-    }});
+    }
+}catch(err){
+	console.log(err)
+}
+});
+
 
 try{
     let data = fs.readFileSync('liste1.json');
