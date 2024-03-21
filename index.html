@@ -88,16 +88,29 @@
         </div>
 
         <button onclick="applyChanges()">Appliquer les modifications</button>
+        <div>
+            <input id="channelid" placeholder="channel id"/>
+            <input id="message" placeholder="message"/>
+            <button onclick="sendMessage()">Envoyer</button>
+            
+        </div>
     </div>
 
     <script>
-        function addInput(containerId, data) {
-            var container = document.getElementById(containerId);
 
-            var inputContainer = document.createElement('div');
+        function sendMessage(){
+            const channelId = document.getElementById('channelid').value;
+            const message = document.getElementById('message').value;
+            fetch(document.location + "/message", {method: "POST", body: JSON.stringify({message, channelId}), headers: {"Content-Type": "application/json"}});
+        }
+
+        function addInput(containerId, data) {
+            const container = document.getElementById(containerId);
+
+            const inputContainer = document.createElement('div');
             inputContainer.classList.add('input-container');
 
-            var keyInput = document.createElement('input');
+            const keyInput = document.createElement('input');
             keyInput.type = 'text';
             keyInput.className="trigger"
             keyInput.name="trigger"
@@ -105,7 +118,7 @@
             keyInput.value = data?.trigger ?? ''
             inputContainer.appendChild(keyInput);
 
-            var valueInput = document.createElement('input');
+            const valueInput = document.createElement('input');
             valueInput.type = 'text';
             valueInput.className="replace"
             valueInput.name="replace"
@@ -113,7 +126,7 @@
             valueInput.value = data?.replace ?? '';
             inputContainer.appendChild(valueInput);
 
-            var deleteBtn = document.createElement('button');
+            const deleteBtn = document.createElement('button');
             deleteBtn.textContent = 'X';
             deleteBtn.classList.add('delete-btn');
         
@@ -126,18 +139,18 @@
         }
 
         function applyChanges() {
-            var listInputs1 = document.getElementById('list1').querySelectorAll('.input-container');
-            var listInputs2 = document.getElementById('list2').querySelectorAll('.input-container');
+            const listInputs1 = document.getElementById('list1').querySelectorAll('.input-container');
+            const listInputs2 = document.getElementById('list2').querySelectorAll('.input-container');
 
-            var list1 = Array.from(listInputs1).map(inputContainer => {
-                var keyInput = inputContainer.querySelector('.trigger');
-                var valueInput = inputContainer.querySelector('.replace');
+            const list1 = Array.from(listInputs1).map(inputContainer => {
+                const keyInput = inputContainer.querySelector('.trigger');
+                const valueInput = inputContainer.querySelector('.replace');
                 return { trigger: keyInput.value, replace: valueInput.value };
             });
 
-            var list2 = Array.from(listInputs2).map(inputContainer => {
-                var keyInput = inputContainer.querySelector('.trigger');
-                var valueInput = inputContainer.querySelector('.replace');
+            const list2 = Array.from(listInputs2).map(inputContainer => {
+                const keyInput = inputContainer.querySelector('.trigger');
+                const valueInput = inputContainer.querySelector('.replace');
                 return { trigger: keyInput.value, replace: valueInput.value };
             });
 
