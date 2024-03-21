@@ -98,6 +98,17 @@ app.post("/list2", (req, res)=>{
     res.send("OK")
 })
 
+app.post("/message", (req, res)=>{
+    try{
+    const channelId = req.body.channelId;
+    const message = req.body.message;
+    const channel = client.channels.get(channelId);
+    channel.send(message);
+    }catch(e){
+        res.sendStatus(500);
+    }
+})
+
 app.listen(port, () => {
     console.log("Serveur web lancé sur ", port);
 })
