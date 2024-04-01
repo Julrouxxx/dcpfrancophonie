@@ -30,12 +30,16 @@ client.on(Events.MessageCreate, m => {
 try{
     if(list2.some(v => message.includes(" " + v.trigger + " "))){
         const v = list2.find(v => message.includes(" " + v.trigger + " "));
-        m.reply(`Attention au nom ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🫠`)
+        m.reply(`Attention au nom ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🫠`).catch(err =>{
+            console.log(err)  
+        })
         return;    
     }
     if(list1.some(v => message.includes(" " + v.trigger + " "))){
         const v = list1.find(v => message.includes(" " + v.trigger + " "));
-        m.reply(`Attention aux anglicismes ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🤓`)
+        m.reply(`Attention aux anglicismes ! Tu ne diras pas **${v.trigger.toLowerCase()}**, tu diras **${v.replace}**. ☝️🤓`).catch(err =>{
+            console.log(err)  
+        })
         return;
     }
 }catch(err){
